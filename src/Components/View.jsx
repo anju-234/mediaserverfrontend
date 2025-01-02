@@ -13,13 +13,17 @@ function View({uploadVideoResponse,setDropVideoResponse}) {
   useEffect(()=>{
     getAllUploadedVideos();
     setDeleteVideoResponse(false)
+    
   },[uploadVideoResponse,deleteVideoResponse]);
 
 
   const getAllUploadedVideos=async()=>{
-    const result=await getAlluploadedVideosAPI();
+        
     //console.log(result);
+    const result=await getAlluploadedVideosAPI()
+    console.log("API Response:", result);
     if(result.status===200){
+      console.log("Video Data:", result.data);
       setAllVideos(result.data)
     }else{
       setAllVideos([])
@@ -52,14 +56,16 @@ return (
       <Row droppable="true" onDragOver={(e)=>VideodragOver(e)} onDrop={e=>videoDrop(e)}>{
          allVideos?.length>0?allVideos.map(video=>(
           <Col sm={12} md={4} lg={3}  >
-          <VideoCard video={video} setDeleteVideoResponse={setDeleteVideoResponse}/>
+          <VideoCard video={video} setDeleteVideoResponse={setDeleteVideoResponse} />
           </Col>
          )):<p>Nothing To Display</p>
          }
+
        </Row>
     </>
   );
 }
 
 export default View
+
 

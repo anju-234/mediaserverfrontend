@@ -1,66 +1,91 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { deleteHistoryAPI, getHistoryAPI } from '../../service/allAPI'
-
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { deleteHistoryAPI, getHistoryAPI } from "../../service/allAPI";
+import './watchhistory.css'
 
 function WatchHistory() {
-  const[history,setHistory]=useState([])
+  const [history, setHistory] = useState([]);
 
-  useEffect(()=>{
-    getHistory()
-  },[])
+  useEffect(() => {
+    getHistory();
+  }, []);
 
-  const getHistory=async()=>{
-    const result=await getHistoryAPI()
+  const getHistory = async () => {
+    const result = await getHistoryAPI();
     console.log(result);
-    if(result.status==200){
-      setHistory(result.data)
+    if (result.status === 200) {
+      setHistory(result.data);
+    } else {
+      console.log("API failed");
+      console.log(result.message);
     }
-    else{
-      console.log("API failed")
-      console.log(result.message)
-    }
-  }
+  };
 
-  //console.log(history)
-  const removeHistory=async(id)=>{
-     await  deleteHistoryAPI(id)
-     getHistory()
-  }
+  const removeHistory = async (id) => {
+    await deleteHistoryAPI(id);
+    getHistory(); // to get the remaining history
+  };
+
   return (
     <>
-     <div className='container mt-5 mb-5 d-flex justify-content-between'>
-      <h2>Watch-history</h2>
-      <Link style={{textDecoration:"none" ,color:"blueviolet",fontSize:"25px"}}to={'/home'}>Back To Home <i class="fa-solid fa-arrows-rotate"></i></Link>
-     </div>
-     <table className='table mb-5 container shadow w-100'>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Caption</th>
-          <th>URL</th>
-          <th>TimeStamp</th>
-          <th>Actiion</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          history?.length>0?history.map((video,index)=>(
+      <div className="container mt-5 mb-5 d-flex justify-content-between align-items-center flex-wrap">
+        <h2 className="text-center mb-3">Watch History</h2>
+        <Link
+          style={{
+            textDecoration: "none",
+            color: "blueviolet",
+            fontSize: "20px",
+          }}
+          to={"/home"}
+        >
+          Back To Home <i className="fa-solid fa-arrows-rotate"></i>
+        </Link>
+      </div>
+      <div className="container shadow mb-5 p-3" style={{ overflowX: "auto" }}>
+        <table className="table table-striped table-bordered text-center">
+          <thead className="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Caption</th>
+              <th>URL</th>
+              <th>TimeStamp</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {history?.length > 0 ? (
+              history.map((video, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{video.caption}</td>
+                  <td>
+                    <a href={video.link} target="_blank" rel="noopener noreferrer">
+                      {video.link}
+                    </a>
+                  </td>
+                  <td>{video.timeStamp}</td>
+                  <td>
+                    <button
+                      onClick={() => removeHistory(video?.id)}
+                      className="btn"
+                    >
+                      <i className="fa-solid fa-trash text-danger"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
-            <td>{index+1}</td>
-            <td>{video.caption}</td>
-            <td><a  href={video.link} target='_blank'>{video.link}</a></td>
-            <td>{video.timeStamp}</td>
-            <td><button onClick={()=>removeHistory(video?.id)} className='btn'><i className="fa-solid fa-trash text-danger"></i></button></td>
-          </tr>
-          
-          )):<p className='text-danger'>Nothing to Display</p>
-        }
-         
-        </tbody>
-     </table>
+                <td colSpan="5" className="text-danger">
+                  Nothing to Display
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </>
-  )
+  );
 }
 
-export default WatchHistory
+export default WatchHistory;

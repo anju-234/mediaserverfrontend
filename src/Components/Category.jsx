@@ -7,7 +7,7 @@ import VideoCard from './VideoCard';
 
 function Category({ dropVideoResponse }) {
 
-  const [categoryName, setCategoryName] = useState("")
+  const [categoryName, setCategoryName] = useState("")//for category name
   const [allCategories, setAllCategories] = useState([])
 
   const [show, setShow] = useState(false);
@@ -33,7 +33,7 @@ function Category({ dropVideoResponse }) {
   }
 
   const getCategories = async () => {
-    const { data } = await getCategoryAPI()
+    const { data } = await getCategoryAPI()//destructuring
     setAllCategories(data)
   }
 

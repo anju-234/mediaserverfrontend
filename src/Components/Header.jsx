@@ -9,7 +9,7 @@ function Header() {
         <Container>
           <Navbar.Brand className='fw-bolder' >
             <Link to={'/'} style={{textDecoration :"none" ,color:"red"}}>
-            <i class="fa-solid fa-video fa-beat"></i>   Media Player
+            <i className="fa-solid fa-video fa-beat"></i>   Media Player
             </Link>
             </Navbar.Brand>
         </Container>

@@ -1,1 +1,1 @@
-export const server_url='https://mediaserver-l50k.onrender.com'
+export const server_url='https://mediaserver-1.onrender.com'

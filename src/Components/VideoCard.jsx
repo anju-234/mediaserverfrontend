@@ -7,6 +7,7 @@ import { addHistoryAPI, deleteVideoAPI } from '../../service/allAPI';
 
 function VideoCard({ video,setDeleteVideoResponse,insideCategory  }) {
   const [show, setShow] = useState(false);
+  console.log("Video prop received:", video);
 
   // Function to close the modal
   const handleClose = () => setShow(false);
@@ -19,6 +20,7 @@ function VideoCard({ video,setDeleteVideoResponse,insideCategory  }) {
 
     // Get the current timestamp
     let today = new Date();
+    //console.log(today);
     let timeStamp = new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: '2-digit',
@@ -30,7 +32,6 @@ function VideoCard({ video,setDeleteVideoResponse,insideCategory  }) {
 
     // Create the video history object
     let videoHistory = { caption, link, timeStamp };
-
     try {
       // Add the video to history via API
       await addHistoryAPI(videoHistory);
@@ -38,6 +39,8 @@ function VideoCard({ video,setDeleteVideoResponse,insideCategory  }) {
     } catch (error) {
       console.error('Error adding video to history:', error);
     }
+
+    // await addHistoryAPI(videoHistory)
   };
 
   const removeVideo = async (id) => {
